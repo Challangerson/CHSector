@@ -1,0 +1,81 @@
+//import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
+
+
+plugins {
+    id 'java'
+//    id 'com.github.johnrengelman.shadow' version '8.1.0'
+}
+
+group = 'ch.challangerson'
+version = '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+
+    maven {
+        name = "papermc-repo"
+        url = "https://repo.papermc.io/repository/maven-public/"
+    }
+}
+
+allprojects {
+    def targetJavaVersion = 21
+
+    java {
+        def javaVersion = JavaVersion.toVersion(targetJavaVersion)
+        sourceCompatibility = javaVersion
+        targetCompatibility = javaVersion
+        if (JavaVersion.current() < javaVersion) {
+            toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
+        }
+    }
+
+
+
+    tasks.withType(JavaCompile).configureEach {
+        if (JavaVersion.current().isJava10Compatible()) {
+            options.release.set(21)
+        }
+        options.encoding = 'UTF-8'
+    }
+
+//    shadowJar {
+//        archiveFileName = "${project.name}.jar"
+//        destinationDirectory = file("C:\\Users\\kacpe\\OneDrive\\Pulpit\\Desktop\\Jobs\\pl")
+//    }
+
+    processResources {
+        def props = [version: version]
+        inputs.properties props
+        filteringCharset 'UTF-8'
+        filesMatching('plugin.yml') {
+            expand props
+        }
+    }
+}
+
+subprojects {
+    apply plugin: 'java'
+
+    repositories {
+        mavenCentral()
+        google()
+
+        maven {
+            name = "papermc-repo"
+            url = "https://repo.papermc.io/repository/maven-public/"
+        }
+
+        maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/groups/public/"
+        }
+    }
+}
+
+
+
+
+test {
+    useJUnitPlatform()
+}

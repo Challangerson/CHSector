@@ -1,0 +1,5 @@
+rootProject.name = 'CHSector'
+
+include 'SectorsPlugin'
+include 'shared'
+include 'proxy'
