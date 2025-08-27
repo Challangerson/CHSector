@@ -1,0 +1,13 @@
+name: SectorsPlugin
+version: '1.0'
+main: me.dizzy.SectorsPlugin
+api-version: '1.21'
+authors: [Challagnerson]
+description: Plugin for plots for minecraft
+website: https://challangerson.pl
+
+commands:
+  clean:
+    description: Your description
+    usage: /<command>
+    permission: yourplugin.yourcommandpermission
